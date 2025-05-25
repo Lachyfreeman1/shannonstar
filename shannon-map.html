@@ -1,0 +1,56 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pickup Map</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
+    #pickup-map {
+      height: 100%;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div id="pickup-map"></div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    const map = L.map("pickup-map").setView([-27.4698, 153.0251], 12);
+
+    L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
+      attribution: "&copy; OpenStreetMap contributors & CartoDB",
+      subdomains: "abcd",
+      maxZoom: 18,
+    }).addTo(map);
+
+    const locations = [
+      ["New Farm Park Ferry Terminal", -27.468849, 153.048581],
+      ["City Botanic Gardens River Hub", -27.474851, 153.030529],
+      ["Bretts Wharf Ferry Terminal", -27.435898, 153.067861],
+      ["Northshore Hamilton Ferry Terminal", -27.429268, 153.080871],
+      ["West End Ferry Terminal", -27.481895, 153.010967],
+      ["Rivergate Marina", -27.443101, 153.103918],
+    ];
+
+    const pinIcon = L.icon({
+      iconUrl: "https://maps.gstatic.com/mapfiles/api-3/images/spotlight-poi2_hdpi.png",
+      iconSize: [27, 43],
+      iconAnchor: [13, 43],
+    });
+
+    locations.forEach(([name, lat, lon]) => {
+      const link = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(name)}`;
+      L.marker([lat, lon], { icon: pinIcon })
+        .addTo(map)
+        .bindPopup(`<b>${name}</b><br><a href="${link}" target="_blank">Open in Maps</a>`);
+    });
+  </script>
+</body>
+</html>
